@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert, ImageBackground } from 'react-native'
 import React, { useRef, useState} from 'react'
-import { FirebaseAuthApplicationVerifier, FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
+import {  FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import {firebaseConfig }from '../Config'
 import firebase from 'firebase/compat/app'
 const image = { uri: "https://i.pinimg.com/736x/09/81/d9/0981d9bc18bf3c6847c5d1f3d07fdb80.jpg" };
 
-const Otp = () => {
+const LoginScreen = ({ navigation }) => {
  
   const [phoneNumber, setPhoneNumber] = useState('');
   const [code, setCode] = useState('');
@@ -69,10 +69,11 @@ const Otp = () => {
         keyboardType='number-pad'
         style={styles.textInput}
       />
-          <TouchableOpacity   style={styles.sendCode} onPress={confirmCode}>
-        <Text  style={styles.buttonText}>
-          Confirm Verification
-        </Text>
+          <TouchableOpacity style={styles.sendCode} 
+                       onPress = {() => navigation.navigate('Home')}>
+                    <Text style={styles.buttonText}>
+                        Confirm Verification
+                    </Text>
       </TouchableOpacity>
       </ImageBackground>
 
@@ -81,7 +82,7 @@ const Otp = () => {
 
 }
 
-export default Otp
+export default LoginScreen
 
 const styles = StyleSheet.create({
   container:{
@@ -95,18 +96,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   textInput: {
-    paddingTop: 40,
-    paddingBottom:20,
+    paddingTop: 10,
+    paddingBottom:10,
     paddingHorizontal:20,
     fontSize:24,
     borderBottomColor:'#fff',
     borderBottomWidth:2,
     marginBottom:20,
     textAlign:'center',
-    color:'#fff',
+    color:'grey',
     position: "absolute",
-    bottom:-250,
-    right:120
+    bottom:-210,
+    right:45
     
   },
   sendVerification: {
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor:'rgba(214, 145, 20, 1)',
     borderRadius:10,
     position: "absolute",
-    bottom:-150,
+    bottom:-125,
     right:100
   },
   sendCode:{
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     backgroundColor:'rgba(214, 145, 20, 1)',
     borderRadius:10,
     position: "absolute",
-    bottom:-280,
+    bottom:-250,
     right:100
   },
   buttonText:{
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
     color:'black',
     margin:20,
     position: "absolute",
-    bottom:-20,
+    bottom:-10,
     right:80
   },
   image:{
@@ -153,9 +154,9 @@ const styles = StyleSheet.create({
   numberText:{
     fontSize:24,
     position: "absolute",
-    bottom:-80,
-    right:125
-  },
+    bottom:-50,
+    right:5,
+    color:'grey',  },
   whiteSheet: {
     width: '100%',
     height: '15%',

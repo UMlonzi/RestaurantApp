@@ -1,95 +1,64 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Button, StyleSheet, Text, View, ImageBackground } from 'react-native';
-import { Audio } from 'expo-av';
-import * as Sharing from 'expo-sharing';
+import { Button, StyleSheet, Text, View, ImageBackground, Image } from 'react-native';
+import { Searchbar } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native-web';
 
-const image = { uri: "https://c0.wallpaperflare.com/preview/515/642/430/background-blank-business-closeup.jpg" };
 
-export default function HomeScreen() {
-  const [recording, setRecording] = React.useState();
-  const [recordings, setRecordings] = React.useState([]);
-  const [message, setMessage] = React.useState("");
+
+const HomeScreen = () =>  {
  
-  async function startRecording() {
-    try {
-      const permission = await Audio.requestPermissionsAsync();
+  const [searchQuery, setSearchQuery] = React.useState('');
 
-      if (permission.status === "granted") {
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: true,
-          playsInSilentModeIOS: true,
-          playsOutLoudModeIOS: true
-        });
-        
-        const { recording } = await Audio.Recording.createAsync(
-          Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
-        );
-
-        setRecording(recording);
-      } else {
-        setMessage("Please grant permission to app to access microphone");
-      }
-    } catch (err) {
-      console.error('Failed to start recording', err);
-    }
-  }
-
-  async function stopRecording() {
-    setRecording(undefined);
-    await recording.stopAndUnloadAsync();
-
-    let updatedRecordings = [...recordings];
-    const { sound, status } = await recording.createNewLoadedSoundAsync();
-    updatedRecordings.push({
-      sound: sound,
-      duration: getDurationFormatted(status.durationMillis),
-      file: recording.getURI()
-    });
-
-    setRecordings(updatedRecordings);
-  }
-
-  function getDurationFormatted(millis) {
-    const minutes = millis / 1000 / 60;
-    const minutesDisplay = Math.floor(minutes);
-    const seconds = Math.round((minutes - minutesDisplay) * 60);
-    const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
-    return `${minutesDisplay}:${secondsDisplay}`;
-  }
-  const deleteRecording = (index) => {
-    let updatedRecordings = [...recordings];
-    updatedRecordings.splice(index, 1);
-    setRecordings(updatedRecordings);
-  }
-  function getRecordingLines() {
-    return recordings.map((recordingLine, index) => {
-      return (
-        <View key={index} style={styles.row}>
-       
-          <Text style={styles.fill}>Recording {index + 1} - {recordingLine.duration}</Text>
-          <Button style={styles.button} onPress={() => recordingLine.sound.replayAsync()} title="Play"></Button>
-          <Button style={styles.button} onPress={() => Sharing.shareAsync(recordingLine.file)} title="Share"></Button>
-          <Button style={styles.button} onPress={() => deleteRecording(index)}title='Delete'></Button>
-        </View>
-      );
-    });
-  }
-
+  const onChangeSearch = query => setSearchQuery(query);
   return (
+  
     <View style={styles.container}>
-          <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-            <Text style={styles.Header}> What Are Your Thoughts Today?</Text>
-      <Text>{message}</Text>
-      <Button 
-        title={recording ? 'Stop Recording' : 'Start Recording'}
-        onPress={recording ? stopRecording : startRecording} />
-      {getRecordingLines()}
-      <StatusBar style="auto" />
-      </ImageBackground>
+      <Searchbar
+      placeholder="Search"
+      onChangeText={onChangeSearch}
+      value={searchQuery}
+      style={styles.searchbar}
+    />
+    <Text style={styles.h1}>Popular Foods</Text>
+    <TouchableOpacity>
+      <Text  style={{ width: 60, height: 60, position:"absolute", bottom:80, right:102,  fontSize: 20, fontWeight: "400", }}>Pizza</Text>
+    <Image
+      source={{uri: 'https://d2mekbzx20fc11.cloudfront.net/uploads/pizzas-568cbd2ca6e3ff38a7d3517f5a324dccdce099125f0c4b8bcd6647f4f18b4e3f.png'}}
+      style={{ width: 60, height: 60, position:"absolute", bottom:140, right:110 }}
+
+    />
+    </TouchableOpacity>
+    <TouchableOpacity>
+      <Text  style={{ width: 60, height: 60, position:"absolute", bottom:80, right:12,  fontSize: 20, fontWeight: "400", }}>
+      Burger</Text>
+    <Image
+      source={{uri: 'https://toppng.com/uploads/preview/big-burger-11562902444grmy1oetg2.png'}}
+      style={{ width: 60, height: 60, position:"absolute", bottom:140, right:20 }}
+
+    />
+    </TouchableOpacity>
+    <TouchableOpacity>
+      <Text  style={{ width: 60, height: 60, position:"absolute", bottom:80, left:22,  fontSize: 20, fontWeight: "400", }}>
+      Indian</Text>
+    <Image
+      source={{uri: 'https://toppng.com/uploads/preview/indian-food-images-11549470671ebsxiapmip.png'}}
+      style={{ width: 60, height: 60, position:"absolute", bottom:140, left:20 }}
+
+    />
+    </TouchableOpacity>
+    <TouchableOpacity>
+      <Text  style={{ width: 60, height: 60, position:"absolute", bottom:80, left:112,  fontSize: 20, fontWeight: "400", }}>
+      Pasta</Text>
+    <Image
+      source={{uri: 'https://toppng.com/uploads/preview/pasta-2-11550712027pkrt0kdmlk.png'}}
+      style={{ width: 60, height: 60, position:"absolute", bottom:140, left:110 }}
+
+    />
+    </TouchableOpacity>
     </View>
   );
 }
+export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {
@@ -98,11 +67,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: "green",
+  searchbar: {
+    position:"absolute",
+    top:"1%",
+    width:"100%"
+  },
+  h1: {
+    position:"absolute",
+    top:"10%",
+    left:"2%",
+    fontSize: 20,
+
+    fontWeight: "bold",
     
   },
   
