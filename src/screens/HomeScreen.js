@@ -1,18 +1,86 @@
-import React from 'react';
-import { Button, StyleSheet, Text, View, ImageBackground, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, StyleSheet, Text, View, ImageBackground, Image, Pressable } from 'react-native';
 import { Searchbar } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native-web';
-
+import { FlatList, render, TouchableOpacity } from 'react-native';
+import { firebase } from '../Config';
+import { doc, getDocs, collection } from "firebase/firestore";
+import Firestore from 'firestore';
+import { useNavigation } from '@react-navigation/native';
 
 
 const HomeScreen = () =>  {
  
   const [searchQuery, setSearchQuery] = React.useState('');
-
   const onChangeSearch = query => setSearchQuery(query);
-  return (
+  const navigation = useNavigation();
+
+
+//   const querySnapshot = async (dispatch) =>  await getDocs(collection(db, "restaurants"));
+// querySnapshot.forEach((doc) => {
+//   // doc.data() is never undefined for query doc snapshots
+//   console.log(doc.id, " => ", doc.data());
+// });
+  // const docRef = doc(this.db, "restaurants", );
+  // const docSnap = async (dispatch) => await getDoc(docRef);
+  
+  // if (docSnap.exists()) {
+  //   console.log("Document data:", docSnap.data());
+  // } else {
+  //   // doc.data() will be undefined in this case
+  //   console.log("No such document!");
+  // }
+  
+  // const [users, setUsers] = useState([]);
+  // const  restaurantsRef = firebase.firestore().collection("restaurants").doc(id).get();
+
+  // useEffect( async () => {
+  //   restaurantsRef
+  //   .onSnapShot(
+  //     querySnapshot => {
+  //       const users = []
+  //       querySnapshot.for((doc) => {
+  //         const { Address, name, photo } = doc.data()
+  //         users.push({
+  //           id: doc.id,
+  //           Address,
+  //           name,
+  //           photo,
+  //         })
+  //       })
+  //       setUsers(users)
+  //     }
+  //   )
+  // }, [])
+
+    // state = {
+    //   restaurant: {
+    //     name:""
+    //   }
+    // }
+
+    // constructor(props) ;{
+    //   super(props);
+    //   this.getRestaurants();
+    //   this.subscriber = Firestore().collection("restaurants").doc
+    //   ('30KDBV5fgFTIQKnttVGM').onSnapshot(doc => {
+    //     this.setState({
+    //       restaurant: {
+    //         name:doc.data().name
+    //       }
+    //     })
+    //   })
+    // }
+    // get = async () => {
+    //   const userDocument = await Firestore().collection("restaurants"). 
+    //   doc('30KDBV5fgFTIQKnttVGM').get()
+    //   console.log(userDocument)
+    // }
+    // render()
+
+  return ( 
   
     <View style={styles.container}>
+      
       <Searchbar
       placeholder="Search"
       onChangeText={onChangeSearch}
@@ -55,9 +123,31 @@ const HomeScreen = () =>  {
 
     />
     </TouchableOpacity>
-    </View>
+{/*     
+    <FlatList style={{ flex:1, marginTop:100}}>
+      
+  data={users}
+  numColums={1}
+  renderItems={({item}) => (
+    <Pressable
+    style={StyleSheet.container}
+    >
+      <View style={styles.innerContainer}>
+        <Text style={styles.itemphoto}>{item.photo} </Text>
+        <Text style={styles.itemAddress}>{item.Address} </Text>
+        <Text style={styles.itemname}>{item.name} </Text>
+
+      </View>
+    </Pressable>
+  )}
+  </FlatList> */}
+  </View>
   );
 }
+
+
+
+
 export default HomeScreen
 
 const styles = StyleSheet.create({
@@ -114,7 +204,23 @@ const styles = StyleSheet.create({
     fontFamily: "Cochin",
     textAlignVertical: 'top',
  
+  },
+  innerContainer:{
+    alignItems:"center",
+    flexDirection:'column'
+  },
+  itemphoto:{
+    height:30,
+    width:50,
+  },
+  itemAddress:{
+    fontWeight:'200'
+  },
+  itemname:{
+    fontWeight:'200'
+
   }
+
 });
 
 
