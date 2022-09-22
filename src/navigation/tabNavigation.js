@@ -26,14 +26,14 @@ export default function TabNavigation() {
             iconName = focused
               ? 'home'
               : 'home';
-          } else if (route.name === 'Search') {
+          } else if (route.name === 'Browse') {
             iconName = focused ? 'magnifying-glass' : 'magnifying-glass';
           }else if (route.name === 'Bookings') {
             iconName = focused ? 'book' : 'book';
-          }else if (route.name === 'Favourites') {
-            iconName = focused ? 'heart' : 'heart-outlined';
+          }else if (route.name === 'Reservation') {
+            iconName = focused ? 'calendar' : 'calandar-outlined';
           } 
-
+      
           // You can return any component that you like here!
           return <Entypo name={iconName} size={size} color={color} />;
          
